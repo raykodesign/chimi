@@ -33,8 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- ENTRADA ---
     enterBtn.addEventListener('click', () => {
-        // CORRECCIÓN AQUÍ: Iniciamos la música INMEDIATAMENTE al hacer click
-        // para que el navegador no la bloquee.
         playMusic(); 
 
         enterScreen.style.opacity = '0';
@@ -49,20 +47,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 300);
 
             initTypewriter();
-            // Ya no llamamos a playMusic() aquí, ya se llamó arriba.
         }, 800);
     });
 
-    // --- MAQUINA DE ESCRIBIR ---
+    // --- MAQUINA DE ESCRIBIR (CORREGIDO) ---
     const welcomeMsg = "Yo brillo donde sea, vos echate escarcha.";
+    let typeWriterTimeout = null; // Variable para controlar duplicados
+
     function initTypewriter() {
+        // Limpiamos cualquier temporizador anterior para evitar superposiciones
+        if (typeWriterTimeout) clearTimeout(typeWriterTimeout);
+        
         let i = 0;
         typingText.innerHTML = "";
+        
         function type() {
             if (i < welcomeMsg.length) {
                 typingText.innerHTML += welcomeMsg.charAt(i);
                 i++;
-                setTimeout(type, 50); 
+                // Guardamos el ID del temporizador
+                typeWriterTimeout = setTimeout(type, 50); 
             }
         }
         type();
@@ -113,9 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
         galleryImages.forEach((src, i) => {
             const card = document.createElement('div');
             card.className = 'card-3d-gold';
-            
-            // CORRECCIÓN: Cambié 'object-fit:cover' por 'object-fit:contain'
-            // Esto hace que la imagen se ajuste dentro del marco sin recortarse
             card.innerHTML = `<img src="${src}" alt="Img ${i}" style="width:100%;height:100%;object-fit:contain;">`;
             
             card.onclick = () => { galleryIndex = i; updateGallery3D(); };
@@ -152,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- MÚSICA ---
     const playlist = [
-        // CORRECCIÓN: Agregamos "audio/" al inicio de src para que encuentre la carpeta correcta
         { 
             title: "Suspiros", 
             artist: "El Coyote Y Su Banda Tierra Santa", 
@@ -168,17 +168,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     window.playMusic = () => {
-        // Promesa de reproducción para capturar errores si el archivo no existe
         var playPromise = audio.play();
 
         if (playPromise !== undefined) {
             playPromise.then(_ => {
-                // La reproducción inició correctamente
                 isPlaying = true;
                 vinyl.classList.add('vinyl-spin');
                 playIcon.className = "fas fa-pause";
                 
-                if(pInt) clearInterval(pInt); // Limpiamos intervalo anterior si existe
+                if(pInt) clearInterval(pInt);
                 pInt = setInterval(() => {
                     if(audio.duration) {
                         progressBar.style.width = (audio.currentTime/audio.duration)*100 + "%";
@@ -187,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.log("Error al reproducir música: ", error);
-                // Si entra aquí, verifica que el nombre del archivo 'suspiros.mp3' sea EXACTO
             });
         }
     };
@@ -206,36 +203,27 @@ document.addEventListener('DOMContentLoaded', () => {
     window.nextSong = () => { sIdx=(sIdx+1)%playlist.length; loadMusic(sIdx); playMusic(); };
     window.prevSong = () => { sIdx=(sIdx-1+playlist.length)%playlist.length; loadMusic(sIdx); playMusic(); };
     
-    // Cargar la primera canción
     loadMusic(0);
 
     window.addEventListener('resize', () => {
         updateGallery3D();
     });
-// --- BLOQUEAR INSPECCIONAR Y BOTÓN DERECHO ---
-    
-    // 1. Bloquear Clic Derecho (Menú contextual)
+
+    // --- BLOQUEAR INSPECCIONAR Y BOTÓN DERECHO ---
     document.addEventListener('contextmenu', (e) => {
         e.preventDefault();
     });
 
-    // 2. Bloquear Atajos de Teclado (F12, Ctrl+U, Ctrl+Shift+I, etc.)
     document.addEventListener('keydown', (e) => {
-        
-        // Bloquear F12
         if (e.key === 'F12' || e.keyCode === 123) {
             e.preventDefault();
             return false;
         }
-
-        // Bloquear combinaciones con Ctrl + Shift (I, J, C)
         if (e.ctrlKey && e.shiftKey && 
            (e.key === 'I' || e.key === 'J' || e.key === 'C' || e.key === 'i' || e.key === 'j' || e.key === 'c')) {
             e.preventDefault();
             return false;
         }
-
-        // Bloquear Ctrl + U (Ver código fuente)
         if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
             e.preventDefault();
             return false;
