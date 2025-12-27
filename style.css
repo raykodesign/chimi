@@ -226,7 +226,7 @@ body {
 
 #typing-text {
     font-family: var(--font-cursive); 
-    font-size: 2.2rem; 
+    font-size: 2.5rem; 
     color: var(--pink-pastel); 
     line-height: 1.3;
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
@@ -348,4 +348,5 @@ body {
     
     .music-player-gold { flex-direction: column; text-align: center; gap: 15px; }
     .controls-gold { justify-content: center; display: flex; }
+
 }
