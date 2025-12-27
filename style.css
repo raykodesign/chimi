@@ -348,5 +348,41 @@ body {
     
     .music-player-gold { flex-direction: column; text-align: center; gap: 15px; }
     .controls-gold { justify-content: center; display: flex; }
+}
+/* --- MARCA DE AGUA TIPO FANTASMA --- */
+.watermark-ghost {
+    position: fixed;
+    bottom: 10px;       /* Pegado al borde inferior */
+    left: 0; 
+    width: 100%;
+    text-align: center;
+    
+    font-family: var(--font-clean);
+    font-size: 10px;    /* Letra bien pequeña */
+    letter-spacing: 2px; /* Espaciado para elegancia */
+    
+    /* El truco para que sea marca de agua: */
+    color: rgba(255, 255, 255, 0.5); 
+    opacity: 0.3;       /* Transparencia general (apenas visible) */
+    
+    z-index: 9999;
+    pointer-events: none; /* Ignora clicks en el texto normal */
+    transition: opacity 0.5s ease;
+}
 
+/* Efecto al pasar el mouse por encima de toda la zona */
+.watermark-ghost:hover {
+    opacity: 1; /* Se vuelve visible si bajas el mouse intencionalmente */
+}
+
+.watermark-ghost a {
+    color: #fff;        /* Blanco para destacar un poco del gris */
+    text-decoration: none;
+    font-weight: 700;
+    pointer-events: auto; /* Habilita el click solo en el nombre */
+    margin-right: 5px;
+}
+
+.watermark-ghost span {
+    font-weight: 300;   /* Texto de derechos más fino */
 }
