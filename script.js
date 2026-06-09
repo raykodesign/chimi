@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- NUEVO EFECTO MOUSE: BRILLITOS (SPARKLES) ---
+    // --- EFECTO MOUSE: BRILLITOS (SPARKLES) ---
     document.addEventListener('mousemove', (e) => {
         if(Math.random() > 0.5) return;
 
@@ -50,12 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 800);
     });
 
-    // --- MAQUINA DE ESCRIBIR (CORREGIDO) ---
+    // --- MAQUINA DE ESCRIBIR ---
     const welcomeMsg = "Yo brillo donde sea, vos echate escarcha.";
-    let typeWriterTimeout = null; // Variable para controlar duplicados
+    let typeWriterTimeout = null; 
 
     function initTypewriter() {
-        // Limpiamos cualquier temporizador anterior para evitar superposiciones
         if (typeWriterTimeout) clearTimeout(typeWriterTimeout);
         
         let i = 0;
@@ -65,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (i < welcomeMsg.length) {
                 typingText.innerHTML += welcomeMsg.charAt(i);
                 i++;
-                // Guardamos el ID del temporizador
                 typeWriterTimeout = setTimeout(type, 50); 
             }
         }
@@ -99,14 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('modal')) closeModal(e.target.id);
     };
 
-    // --- GALERÍA 3D ---
+    // --- GALERÍA 3D NUEVAS FOTOS ---
     const galleryImages = [
-        "https://xatimg.com/image/7XFZMHzHEnQ2.png",
-        "https://xatimg.com/image/fVliZ87xN9xC.png",
+        "https://xatimg.com/image/5OR6hs0YdWmm.jpg",
+        "https://xatimg.com/image/H2dobZKe29di.jpg",
+        "https://xatimg.com/image/xKvtIanULl4Q.jpg",
+        "https://xatimg.com/image/BEfqLXAgQhsb.jpg",
         "https://xatimg.com/image/QFdHBDFO6dMX.jpg",
-        "https://xatimg.com/image/qqDQmNlDOhik.jpg",
-        "https://xatimg.com/image/52otwsn4jVNZ.jpg",
-        "https://xatimg.com/image/U3YDu5dojBlC.jpg",
+        "https://xatimg.com/image/k0kxghtw5BUm.jpg"
     ];
     
     const carouselTrack = document.getElementById('carousel-3d-track');
@@ -154,9 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- MÚSICA ---
     const playlist = [
         { 
-            title: "Suspiros", 
-            artist: "El Coyote Y Su Banda Tierra Santa", 
-            src: "audio/Suspiros - El Coyote y su Banda Tierra Santa.mp3" 
+            title: "La 8va Maravilla", 
+            artist: "Arcangel", 
+            src: "audio/Arcangel - La 8va Maravilla.mp3" 
         },
     ];
     let sIdx = 0; let isPlaying = false; let pInt;
